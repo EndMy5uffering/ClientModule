@@ -14,9 +14,9 @@ public class Printer {
 	
 	private OutputStream out = System.out;
 	
-	private PrintMode mode;
+	private int mode;
 	
-	Printer(PrintingType p, PrintMode mode, FileAccess f) {
+	Printer(PrintingType p, int mode, FileAccess f) {
 		this.printType = p;
 		fileAccess = f;
 		this.mode = mode;
@@ -24,7 +24,11 @@ public class Printer {
 	}
 
 	public void print(Level level, String s) {
-		String toPrint = "[" + getFormatedTime() + " " + level.toString() + "]:" + s;
+		String prefix ="";
+		if(PrintMode.check(mode, PrintMode.NO_PREFIX)) {
+			prefix += "[" + getFormatedTime() + " " + level.toString() + "]:";
+		}
+		String toPrint = prefix + s;
 
 		switch (printType) {
 		case Console:
@@ -67,12 +71,15 @@ public class Printer {
 	}
 
 	private void setFormate() {
-		if(mode == PrintMode.DebugDetaild || mode == PrintMode.EventDetaild) {
+		
+		if(PrintMode.checkAllOr(mode,
+				PrintMode.DEBUG | PrintMode.DETAILED,
+				PrintMode.EVENT | PrintMode.DETAILED)) {
 			formatPatten = "MM.dd.yyyy-HH:mm:ss";
 		}
 	}
 
-	public void setMode(PrintMode mode) {
+	public void setMode(int mode) {
 		this.mode = mode;
 		setFormate();
 	}

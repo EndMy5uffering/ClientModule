@@ -207,49 +207,8 @@ public class ClientConnection{
 		return callback;
 	}
 
-	/**
-	 * Adds a callback function for the client to call when a package has been received.
-	 * 
-	 * @param callback A callback function that takes the <b>package</b> as <b>DataPackage</b> and the <b>connection</b>.
-	 * */
-	public void addClientPackageReceiveCallback(ClientPackageReceiveCallback callback) {
-		this.callback.add(callback);
-	}
-	
-	/**
-	 * Sets the list of callback functions for the connection to invoke when a package has been received.
-	 * 
-	 * @param callback A list of callback functions that takes the <b>package</b> as <b>DataPackage</b> and the <b>connection</b>.
-	 * */
-	public void setClientPackageReceiveCallback(List<ClientPackageReceiveCallback> callback) {
-		this.callback = callback;
-	}
-
 	public PackageManager getPackageManager() {
 		return packageManager;
-	}
-
-	/**
-	 * Sets the package manager for the client connection.<br>
-	 * 
-	 * @param packageManager The package manager that will be used by the connection. <b>Can not be null!</b>
-	 * 
-	 * @throws NullPointerException When packageManager == null
-	 * */
-	public void setPackageManager(PackageManager packageManager) {
-		if(packageManager == null)
-			throw new NullPointerException("Package Manager can not be null!");
-		this.packageManager = packageManager;
-	}
-	
-	/**
-	 * Sets the timeout callback function that will be called when a connection did not receive any packages for a set time (timeout).<br>
-	 * The function will be called before the connection is closed an disposed of.<br>
-	 * Right after execution of the callback the connection will be closed and disposed of.
-	 * @param timeout The timeout function that will be executed when a connection timed out
-	 * */
-	public void setClientTimeOutCallback(ClientTimeOutCallback timeout) {
-		this.clientTimeOutCallback = timeout;
 	}
 
 	public State getState() {
@@ -263,7 +222,7 @@ public class ClientConnection{
 	public Socket getSocket() {
 		return socket;
 	}
-
+	
 	/**
 	 * Sets a callback for unknown packages.<br>
 	 * When a unknown package was read by the connection the given function will be called.<br>
@@ -285,4 +244,46 @@ public class ClientConnection{
 	public void setClientDisconnectCallback(ClientDisconnectCallback clientDisconnectCallback) {
 		this.clientDisconnectCallback = clientDisconnectCallback;
 	}
+	
+	/**
+	 * Sets the timeout callback function that will be called when a connection did not receive any packages for a set time (timeout).<br>
+	 * The function will be called before the connection is closed an disposed of.<br>
+	 * Right after execution of the callback the connection will be closed and disposed of.
+	 * @param timeout The timeout function that will be executed when a connection timed out
+	 * */
+	public void setClientTimeOutCallback(ClientTimeOutCallback timeout) {
+		this.clientTimeOutCallback = timeout;
+	}
+	
+	/**
+	 * Sets the package manager for the client connection.<br>
+	 * 
+	 * @param packageManager The package manager that will be used by the connection. <b>Can not be null!</b>
+	 * 
+	 * @throws NullPointerException When packageManager == null
+	 * */
+	public void setPackageManager(PackageManager packageManager) {
+		if(packageManager == null)
+			throw new NullPointerException("Package Manager can not be null!");
+		this.packageManager = packageManager;
+	}
+	
+	/**
+	 * Adds a callback function for the client to call when a package has been received.
+	 * 
+	 * @param callback A callback function that takes the <b>package</b> as <b>DataPackage</b> and the <b>connection</b>.
+	 * */
+	public void addClientPackageReceiveCallback(ClientPackageReceiveCallback callback) {
+		this.callback.add(callback);
+	}
+	
+	/**
+	 * Sets the list of callback functions for the connection to invoke when a package has been received.
+	 * 
+	 * @param callback A list of callback functions that takes the <b>package</b> as <b>DataPackage</b> and the <b>connection</b>.
+	 * */
+	public void setClientPackageReceiveCallback(List<ClientPackageReceiveCallback> callback) {
+		this.callback = callback;
+	}
+
 }

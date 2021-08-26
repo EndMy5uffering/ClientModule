@@ -10,11 +10,11 @@ public class Logger {
 
 	private Printer p; 
 	
-	private PrintMode mode;
+	private int mode;
 	
 	private PrintingType type;
 		
-	public Logger(PrintingType printingType, PrintMode mode) {
+	public Logger(PrintingType printingType, int mode) {
 		this.type = printingType;
 		this.mode = mode;
 		FileAccess fileAccess = null;
@@ -22,7 +22,7 @@ public class Logger {
 		p = new Printer(printingType, mode, fileAccess);
 	}
 	
-	public Logger(String path, PrintMode mode) {
+	public Logger(String path, int mode) {
 		this.type = PrintingType.FlatFile;
 		this.mode = mode;
 		FileAccess fileAccess = new FileAccess(path);
@@ -150,8 +150,8 @@ public class Logger {
 	}
 	
 	private String getStackTrace(Level level) {
-		if(this.mode == PrintMode.DebugNoTrace) return "";
-		if(this.mode == PrintMode.Event && level != Level.DEBUG) return "";
+		if(!level.equals(Level.DEBUG)) return "";
+		if(PrintMode.check(this.mode, PrintMode.NO_TRACE)) return "";
 		StackTraceElement e = new Exception().getStackTrace()[2];
 		return "Trace:" + e.getClassName() + "." + e.getMethodName() + "() Line:" + e.getLineNumber();
 	}
@@ -161,7 +161,7 @@ public class Logger {
 		this.p.setOutputStream(out);
 	}
 
-	public void setMode(PrintMode mode) {
+	public void setMode(int mode) {
 		this.mode = mode;
 		this.p.setMode(mode);
 	}
